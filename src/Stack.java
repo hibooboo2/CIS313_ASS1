@@ -23,10 +23,7 @@ public class Stack
 
     public Node pop()
     { // returns the value that was popped off  
-        if (isEmpty())
-        {
-            System.out.println("The stack is empty, nothing was popped!!!");
-        }
+        if (isEmpty()) throw new RuntimeException("The stack is empty, nothing was popped!!!");
         Node oldtop = top;
         top = top.next;
         return oldtop;

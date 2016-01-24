@@ -27,11 +27,8 @@ public class Queue
     }
 
     public Node dequeue()
-    {//returns the value that was removed 
-        if (isEmpty())
-        {
-            System.out.println("The Queue is Empty, cannot Dequeue!");
-        }
+    {//returns the value that was removed
+        if (isEmpty()) throw new RuntimeException("The Queue is Empty, cannot Dequeue!");
         Node oldfront = front;
         if (front == back)
         {

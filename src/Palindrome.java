@@ -7,51 +7,45 @@ public class Palindrome
 
     public static void main(String[] args)
     {
-        Palindrome palindrome = new Palindrome();
         String input = getInput();
-        String processedString = processString(input);
-        System.out.println(processedString);
-        palindrome.populateDataStuctures(processedString);
-        palindrome.isPalindrome(processedString);
+        System.out.println(input + " is palindrome: " + new Palindrome().isPalindrome(input));
 
     }
 
     public static String getInput()
     {
-        String pstring;
-        System.out.println("Enter a string to test!");
-        Scanner userinput = new Scanner(System.in);
-        pstring = userinput.nextLine(); // Need to use this rather than .next to parse 
-        userinput.close();
-        return pstring;
+        Scanner userInput = null;
+        try {
+            System.out.println("Enter string to test if it is a palindrome: ");
+            userInput = new Scanner(System.in);
+            return  userInput.nextLine(); // Need to use this rather than .next to parse
+        } finally {
+            if (userInput != null) userInput.close();
+        }
     }
 
     public static String processString(String str)
     {
-        String processedString;
-        str = str.toLowerCase();
-        processedString = str.replaceAll("\\s", ""); // gets rid of all white space chars and repalces them with empty chars. 
-        return processedString;
+        return str.replaceAll("\\s", "").toLowerCase(); // gets rid of all white space chars and replaces them with empty chars.
     }
 
-    public void populateDataStuctures(String str)
+    private void populateDataStructures(String str)
     {
-        for (int i = 0; i < str.length(); i++)
-        {
-            char a_char = str.charAt(i);
-            stack.push(new Node(a_char)); //push a new node initialized to the entered character 
-            queue.enqueue(new Node(a_char));
+        queue = new Queue();
+        stack = new Stack();
+        for (char c:str.toCharArray()) {
+            stack.push(new Node(c)); //push a new node initialized to the entered character
+            queue.enqueue(new Node(c));
         }
     }
 
     public boolean isPalindrome(String str)
     {
-
-        for (int i = 0; i < str.length(); i++)
+        str = processString(str);
+        populateDataStructures(str);
+        for (char ignored : str.toCharArray())
         {
-            if (stack.pop() != queue.dequeue())
-            {
-                System.out.println("The inputed string is not a palindrome!");
+            if (stack.pop().data != queue.dequeue().data) {
                 return false;
             }
         }
